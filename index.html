@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitTrack — Workout & Nutrition Tracker</title>
+  <meta name="description" content="Vanilla JavaScript fitness app: calorie & macro calculator, workout log with personal records, and body-weight progress chart." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo">Fit<span>Track</span></div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="calculator" role="tab">Calculator</button>
+      <button class="tab" data-tab="workouts" role="tab">Workouts</button>
+      <button class="tab" data-tab="progress" role="tab">Progress</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- ============ CALCULATOR ============ -->
+    <section id="calculator" class="panel active">
+      <div class="card">
+        <h2>Calories & Macros</h2>
+        <p class="muted">Mifflin–St Jeor formula. Your data is saved in the browser.</p>
+        <form id="profileForm" class="grid">
+          <label>Sex
+            <select name="sex" required>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </label>
+          <label>Age
+            <input type="number" name="age" min="14" max="100" required placeholder="19" />
+          </label>
+          <label>Weight (kg)
+            <input type="number" name="weight" min="30" max="300" step="0.1" required placeholder="75" />
+          </label>
+          <label>Height (cm)
+            <input type="number" name="height" min="120" max="230" required placeholder="180" />
+          </label>
+          <label>Activity
+            <select name="activity" required>
+              <option value="1.2">Sedentary</option>
+              <option value="1.375">Light (1–3 workouts/week)</option>
+              <option value="1.55" selected>Moderate (3–5 workouts/week)</option>
+              <option value="1.725">High (6–7 workouts/week)</option>
+              <option value="1.9">Very high (athlete)</option>
+            </select>
+          </label>
+          <label>Goal
+            <select name="goal" required>
+              <option value="cut">Lose fat</option>
+              <option value="maintain" selected>Maintain</option>
+              <option value="bulk">Gain muscle</option>
+            </select>
+          </label>
+          <button type="submit" class="btn primary full">Calculate</button>
+        </form>
+      </div>
+
+      <div id="results" class="card hidden">
+        <h2>Your daily target</h2>
+        <div class="stats">
+          <div class="stat"><span class="stat-label">BMR</span><span id="bmr" class="stat-value">–</span></div>
+          <div class="stat"><span class="stat-label">TDEE</span><span id="tdee" class="stat-value">–</span></div>
+          <div class="stat accent"><span class="stat-label">Target</span><span id="target" class="stat-value">–</span></div>
+        </div>
+        <div class="macros">
+          <div class="macro"><div class="macro-head"><span>Protein</span><b id="protein">–</b></div><div class="bar"><i id="proteinBar" class="p"></i></div></div>
+          <div class="macro"><div class="macro-head"><span>Fat</span><b id="fat">–</b></div><div class="bar"><i id="fatBar" class="f"></i></div></div>
+          <div class="macro"><div class="macro-head"><span>Carbs</span><b id="carbs">–</b></div><div class="bar"><i id="carbsBar" class="c"></i></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WORKOUTS ============ -->
+    <section id="workouts" class="panel">
+      <div class="card">
+        <h2>Log a set</h2>
+        <form id="workoutForm" class="grid">
+          <label>Date <input type="date" name="date" required /></label>
+          <label>Exercise
+            <input type="text" name="exercise" list="exerciseList" required maxlength="40" placeholder="Bench press" />
+            <datalist id="exerciseList"></datalist>
+          </label>
+          <label>Sets <input type="number" name="sets" min="1" max="20" value="3" required /></label>
+          <label>Reps <input type="number" name="reps" min="1" max="100" value="10" required /></label>
+          <label>Weight (kg) <input type="number" name="weight" min="0" max="500" step="0.5" value="0" required /></label>
+          <button type="submit" class="btn primary full">Add</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Personal records</h2>
+        <ul id="records" class="records"></ul>
+      </div>
+
+      <div class="card">
+        <h2>History</h2>
+        <div id="history"></div>
+      </div>
+    </section>
+
+    <!-- ============ PROGRESS ============ -->
+    <section id="progress" class="panel">
+      <div class="card">
+        <h2>Body weight</h2>
+        <form id="weightForm" class="grid inline">
+          <label>Date <input type="date" name="date" required /></label>
+          <label>Weight (kg) <input type="number" name="kg" min="30" max="300" step="0.1" required placeholder="75.4" /></label>
+          <button type="submit" class="btn primary">Save</button>
+        </form>
+        <p id="weightSummary" class="muted"></p>
+        <canvas id="weightChart" aria-label="Body weight chart"></canvas>
+        <ul id="weightList" class="weight-list"></ul>
+      </div>
+
+      <div class="card">
+        <h2>Data</h2>
+        <p class="muted">Back up or move your data between devices.</p>
+        <div class="row">
+          <button id="exportBtn" class="btn">Export JSON</button>
+          <label class="btn">Import JSON<input id="importInput" type="file" accept="application/json" hidden /></label>
+          <button id="resetBtn" class="btn danger">Reset all</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <footer class="footer">Built with vanilla JavaScript · <a href="https://github.com/Orlixx003" target="_blank" rel="noopener">@Orlixx003</a></footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
