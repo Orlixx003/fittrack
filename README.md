@@ -71,4 +71,4 @@ fittrack/
 
 ---
 
-Made by [Mykhailo Ivanyshyn](https://github.com/Orlixx003)
+Made by Orlixx (https://github.com/Orlixx003)
